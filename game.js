@@ -686,6 +686,11 @@
   bindKeyboard();
   bindButtons();
   bindJoystick();
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    });
+  }
   updateHUD();
   requestAnimationFrame(loop);
 })();

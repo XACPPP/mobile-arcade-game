@@ -3,9 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#2a1b12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="钢火突击队" />
+  <meta name="description" content="移动端横版动作射击游戏，支持触屏操作、闯关推进、Boss 战、坦克与强化武器。" />
   <title>钢火突击队 · 移动端豪华闯关版</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" sizes="192x192" href="icons/icon-192.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+<body>
+  <div class="app-shell">
+    <header class="top-ui">
+      <div class="brand">钢火<span>突击队</span></div>
+      <div class="top-actions">
+        <button id="pauseBtn" class="ui-btn">暂停</button>
+      </div>
+    </header>
+
+    <main class="game-shell">
+      <canvas id="game" width="1280" height="720"></canvas>
+
+      <div class="hud">
+        <div class="hud-left">
+          <div class="panel hp-panel">
+            <div class="label">生命</div>
+            <div class="value" id="hpText">100 / 100</div>
+            <div class="bar"><div class="fill" id="hpFill"></div></div>
+          </div>
+        </div>
+
+        <div class="hud-right">
+          <div class="panel small"><div class="label">武器</div><div class="value" id="weaponText">MG</div></div>
+          <div class="panel small"><div class="label">手雷</div><div class="value" id="grenadeText">03</div></div>
+          <div class="panel small"><div class="label">分数</div><div class="value" id="scoreText">000000</div></div>
+          <div class="panel small"><div class="label">关卡</div><div class="value" id="stageText">1-1</div></div>
+        </div>
+      </div>
+
+      <div class="message" id="msgText">点击开始任务</div>
+
+      <div class="overlay screen-title active" id="titleScreen">
+        <div class="card large">
+          <h1>钢火突击队</h1>
+          <p>移动端豪华闯关版</p>
+          <div class="menu-buttons">
+            <button id="startBtn" class="big-btn">开始任务</button>
+            <button id="restartBtn" class="big-btn secondary">重新开档</button>
+          </div>
+          <div class="tips">
+            <div>左下虚拟摇杆移动</div>
+            <div>右下按钮射击 / 跳跃 / 手雷</div>
+            <div>支持键盘：A/D、J、K、空格</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay screen-pause" id="pauseScreen">
+        <div class="card">
+          <h2>已暂停</h2>
+          <div class="menu-buttons">
+            <button id="resumeBtn" class="big-btn">继续</button>
+            <button id="pauseRestartBtn" class="big-btn secondary">重新开始</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay screen-over" id="overScreen">
+        <div class="card">
+          <h2 id="overTitle">任务结束</h2>
+          <p id="overDesc">再来一局</p>
+          <div class="menu-buttons">
+            <button id="overRestartBtn" class="big-btn">重新开始</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-controls">
+        <div class="left-controls">
+          <div id="joystickBase" class="joystick-base">
+            <div id="joystickStick" class="joystick-stick"></div>
+          </div>
+        </div>
+
+        <div class="right-controls">
+          <button id="shootBtn" class="action-btn fire">射击</button>
+          <button id="jumpBtn" class="action-btn jump">跳</button>
+          <button id="grenadeBtn" class="action-btn grenade">雷</button>
+          <button id="dashBtn" class="action-btn dash">冲</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+
 <body>
   <div class="app-shell">
     <header class="top-ui">
