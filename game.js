@@ -90,7 +90,7 @@
   }
 
   function startGame() {
-    game.mode = 'intro';
+    game.mode = 'play';
     game.paused = false;
     game.won = false;
     game.score = 0;
@@ -313,11 +313,14 @@
 
     if (game.paused) { updateEffects(dt); updateHUD(); clearOneShotInputs(); return; }
     if (game.mode === 'title') { updateEffects(dt); updateHUD(); clearOneShotInputs(); return; }
-    if (game.mode === 'intro') {
-      if (game.msgTime <= 0) { game.mode = 'play'; setMsg('推进开始！', 1.3); }
-      updateEffects(dt); updateHUD(); clearOneShotInputs(); return;
-    }
     if (game.mode === 'over') { updateEffects(dt); updateHUD(); clearOneShotInputs(); return; }
+
+    if (game.mode !== 'title' && titleScreen.classList.contains('active')) {
+      titleScreen.classList.remove('active');
+    }
+    if (game.mode === 'play' && pauseScreen.classList.contains('active') && !game.paused) {
+      pauseScreen.classList.remove('active');
+    }
 
     const moveSpeed = player.vehicle ? 270 : 360;
     if (player.dashTime > 0 && !player.vehicle) player.vx = player.facing * 780;
@@ -629,13 +632,26 @@
     addEventListener('keyup', e => input.keys.delete(e.code));
   }
 
+  function forceStartFromOverlay() {
+    if (game.mode === 'title' || titleScreen.classList.contains('active')) {
+      startGame();
+    }
+  }
+
   function bindButtons() {
     startBtn.onclick = startGame;
     restartBtn.onclick = startGame;
     overRestartBtn.onclick = startGame;
     pauseRestartBtn.onclick = startGame;
+    [startBtn, restartBtn, overRestartBtn, pauseRestartBtn, titleScreen].forEach(el => {
+      if (!el) return;
+      const startNow = e => { e.preventDefault(); forceStartFromOverlay(); };
+      el.addEventListener('touchstart', startNow, { passive:false });
+      el.addEventListener('pointerdown', startNow);
+    });
+    titleScreen.addEventListener('click', () => forceStartFromOverlay());
     pauseBtn.onclick = () => {
-      if (game.mode === 'play' || game.mode === 'intro') {
+      if (game.mode === 'play') {
         game.paused = true;
         pauseScreen.classList.add('active');
       }
