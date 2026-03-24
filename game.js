@@ -1,4 +1,5 @@
 (() => {
+  const BASE_PATH = '/mobile-arcade-game/';
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
@@ -687,7 +688,8 @@
   bindButtons();
   bindJoystick();
   if ('serviceWorker' in navigator) {
-    const registerSW = () => navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {});
+    const swUrl = `${BASE_PATH}service-worker.js`;
+    const registerSW = () => navigator.serviceWorker.register(swUrl, { scope: BASE_PATH }).catch(() => {});
     window.addEventListener('load', registerSW);
     registerSW();
   }
