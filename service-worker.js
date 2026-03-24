@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mobile-arcade-game-v2';
+const CACHE_NAME = 'mobile-arcade-game-v3';
 const ASSETS = [
   './',
   './index.html',

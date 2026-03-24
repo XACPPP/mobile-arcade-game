@@ -104,6 +104,7 @@
     buildStage();
     setMsg(`任务开始：${stages[0].label}`, 2.5);
     titleScreen.classList.remove('active');
+    titleScreen.style.display = 'none';
     pauseScreen.classList.remove('active');
     overScreen.classList.remove('active');
   }
@@ -709,6 +710,7 @@
     window.addEventListener('load', registerSW);
     registerSW();
   }
+  startGame();
   updateHUD();
   requestAnimationFrame(loop);
 })();
