@@ -687,9 +687,9 @@
   bindButtons();
   bindJoystick();
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
-    });
+    const registerSW = () => navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {});
+    window.addEventListener('load', registerSW);
+    registerSW();
   }
   updateHUD();
   requestAnimationFrame(loop);
